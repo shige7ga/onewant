@@ -19,6 +19,7 @@ try {
     // テーブルの作成(1ユーザ毎のやりたいことのデータを扱う)
     $sql = "CREATE TABLE wants (
         id INTEGER AUTO_INCREMENT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
         want VARCHAR(2000) NOT NULL,
         todo VARCHAR(2000),
         memo VARCHAR(2000),
