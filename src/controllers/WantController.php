@@ -6,6 +6,8 @@ class WantController extends Controller
 {
     public function index()
     {
-        return "Welcome to the WantController index action!";
+        return $this->render([
+            'pageTitle' => 'トップ画面',
+        ]);
     }
 }
