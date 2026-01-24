@@ -7,6 +7,9 @@ class Controller
     public function run($action)
     {
         $this->actionName = $action;
+        if (!method_exists($this, $action)) {
+            throw new HttpNotFoundPageException();
+        }
         return $this->$action();
     }
 
