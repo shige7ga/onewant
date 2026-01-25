@@ -25,5 +25,14 @@
             <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
             <input type="submit" value="編集する">
         </form>
+        <div id="myPopover" popover>
+            <p>完全にデータが消えます。本当に削除しますか？</p>
+            <form action="delete" method="post">
+                <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
+                <input type="submit" value="本当に削除する">
+            </form>
+            <button popovertarget="myPopover">いいえ、削除しません</button>
+        </div>
+        <button popovertarget="myPopover">削除する</button>
     <?php endforeach; ?>
 </ul>

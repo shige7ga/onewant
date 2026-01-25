@@ -67,4 +67,21 @@ class WantController extends Controller
                 'wants' => $wants
             ], 'index');
     }
+
+    public function delete()
+    {
+        if (!$this->request->isPost()) {
+            throw new HttpNotFoundPageException();
+        }
+        $wantId = $_POST['id'];
+        $this->models['want']->deleteWant($wantId);
+
+        $user_id = 1; // 仮のユーザーID
+        $wants = $this->models['want']->getWantsPerUser($user_id);
+        return $this->render([
+                'pageTitle' => 'トップ',
+                'user_id' => $user_id,
+                'wants' => $wants
+            ], 'index');
+    }
 }

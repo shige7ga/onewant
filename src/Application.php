@@ -43,6 +43,7 @@ class Application
             '/create' => ['controller' => 'want', 'action' => 'create'],
             '/update' => ['controller' => 'want', 'action' => 'update'],
             '/update/action' => ['controller' => 'want', 'action' => 'updateAction'],
+            '/delete' => ['controller' => 'want', 'action' => 'delete'],
         ];
     }
 

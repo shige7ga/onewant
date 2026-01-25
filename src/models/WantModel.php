@@ -65,4 +65,19 @@ class WantModel extends Model
         }
         return true;
     }
+
+    public function deleteWant($id)
+    {
+        try {
+            $sql = 'DELETE FROM wants WHERE id = :id';
+            $params = [
+                [':id', $id, PDO::PARAM_INT],
+            ];
+            $this->executeQuery($sql, $params);
+        } catch (PDOException $e) {
+            echo 'Delete error：' . $e->getMessage() . PHP_EOL;
+            return false;
+        }
+        return true;
+    }
 }
