@@ -40,6 +40,9 @@ class Application
     {
         return [
             '/' => ['controller' => 'want', 'action' => 'index'],
+            '/create' => ['controller' => 'want', 'action' => 'create'],
+            '/update' => ['controller' => 'want', 'action' => 'update'],
+            '/update/action' => ['controller' => 'want', 'action' => 'updateAction'],
         ];
     }
 
