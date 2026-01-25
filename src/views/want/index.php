@@ -3,6 +3,7 @@
 
 <h2>ステータス</h2>
 <ul>
+    <li>ユーザ名</li>
     <li>レベル</li>
     <li>経験値</li>
     <li>記入回数</li>
@@ -11,7 +12,7 @@
 
 <h2>やりたいこと一覧</h2>
 <ul>
-    <li>やりたいこと1</li>
-    <li>やりたいこと2</li>
-    <li>やりたいこと3</li>
+    <?php foreach ($wants as $want): ?>
+        <li><?php echo $want['want']; ?></li>
+    <?php endforeach; ?>
 </ul>

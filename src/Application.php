@@ -5,12 +5,14 @@ class Application
     private $router;
     private $request;
     private $response;
+    private $dbManager;
 
     public function __construct()
     {
         $this->router = new Router($this->registerRoutes());
         $this->request = new Request();
         $this->response = new Response();
+        $this->dbManager = new DbManager();
     }
 
     public function run()
@@ -25,7 +27,7 @@ class Application
                 throw new HttpNotFoundPageException();
             }
             $action = $params['action'];
-            $controller = new $controllerClass();
+            $controller = new $controllerClass($this);
             $content = $controller->run($action);
             $this->response->setContent($content);
         } catch (HttpNotFoundPageException) {
@@ -39,6 +41,16 @@ class Application
         return [
             '/' => ['controller' => 'want', 'action' => 'index'],
         ];
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getDbManager()
+    {
+        return $this->dbManager;
     }
 
     private function handleNotFound()

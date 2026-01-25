@@ -2,7 +2,15 @@
 
 class Controller
 {
-    private $actionName;
+    protected $actionName;
+    protected $request;
+    protected $dbManager;
+
+    public function __construct($application)
+    {
+        $this->request = $application->getRequest();
+        $this->dbManager = $application->getDbManager();
+    }
 
     public function run($action)
     {
