@@ -17,7 +17,7 @@ class Model
                 $stmt->bindParam(...$param);
             }
         }
-        $stmt->execute($params);
+        $stmt->execute();
         return $stmt;
     }
 }

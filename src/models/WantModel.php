@@ -23,6 +23,17 @@ class WantModel extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getWantById($id)
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM wants WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+        } catch (PDOException $e) {
+            echo 'Query error：' . $e->getMessage() . PHP_EOL;
+        }
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function createWant($user_id, $want)
     {
         try {
@@ -34,6 +45,22 @@ class WantModel extends Model
             $this->executeQuery($sql, $params);
         } catch (PDOException $e) {
             echo 'Insert error：' . $e->getMessage() . PHP_EOL;
+            return false;
+        }
+        return true;
+    }
+
+    public function updateWant($id, $want)
+    {
+        try {
+            $sql = 'UPDATE wants SET want = :want WHERE id = :id';
+            $params = [
+                [':want', $want, PDO::PARAM_STR],
+                [':id', $id, PDO::PARAM_INT],
+            ];
+            $this->executeQuery($sql, $params);
+        } catch (PDOException $e) {
+            echo 'Update error：' . $e->getMessage() . PHP_EOL;
             return false;
         }
         return true;
