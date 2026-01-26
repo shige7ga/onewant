@@ -14,8 +14,10 @@ class WantController extends Controller
     {
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
         return $this->render([
             'pageTitle' => 'トップ',
+            'checkTodayWant' => $checkTodayWant,
             'user_id' => $user_id,
             'wants' => $wants
         ]);
@@ -30,8 +32,10 @@ class WantController extends Controller
         $wantText = $_POST['want'];
         $this->models['want']->createWant($user_id, $wantText);
         $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
         return $this->render([
                 'pageTitle' => 'トップ',
+                'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
                 'wants' => $wants
             ], 'index');
@@ -61,8 +65,10 @@ class WantController extends Controller
 
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
         return $this->render([
                 'pageTitle' => 'トップ',
+                'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
                 'wants' => $wants
             ], 'index');
@@ -78,8 +84,10 @@ class WantController extends Controller
 
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
         return $this->render([
                 'pageTitle' => 'トップ',
+                'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
                 'wants' => $wants
             ], 'index');

@@ -80,4 +80,16 @@ class WantModel extends Model
         }
         return true;
     }
+
+    public function checkTodayWant($user_id)
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM wants WHERE user_id = :user_id AND DATE(created_at) = CURDATE()');
+            $stmt->execute(['user_id' => $user_id]);
+        } catch (PDOException $e) {
+            echo 'Query error：' . $e->getMessage() . PHP_EOL;
+        }
+        $count = $stmt->fetchColumn();
+        return $count === 0;
+    }
 }

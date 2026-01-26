@@ -1,9 +1,12 @@
-<h2>やりたいことを記録しよう</h2>
+
 <form action="/create" method="post">
-    <textarea name="want" id="want"></textarea>
-    <input type="submit" value="記録する">
+    <fieldset <?php if (!$checkTodayWant) echo 'disabled'; ?>>
+        <legend><h2>やりたいことを記録しよう</h2></legend>
+        <textarea name="want" id="want"></textarea><br>
+        <input type="submit" value="記録する">
+    </fieldset>
 </form>
-<p>記録できるのは、1日1個まで！</p>
+<p>記録できるのは、1日1個まで！ <?php echo $checkTodayWant ? '' : '本日はすでにやりたいことを記録しています！'; ?></p>
 
 <h2>ステータス</h2>
 <ul>
