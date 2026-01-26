@@ -8,7 +8,7 @@
 </form>
 <p>記録できるのは、1日1個まで！ <?php echo $checkTodayWant ? '' : '本日はすでにやりたいことを記録しています！'; ?></p>
 
-<h2>ステータス</h2>
+<h2>ユーザーステータス</h2>
 <ul>
     <li>ユーザID：<?php echo $user_id; ?></li>
     <li>ユーザ名</li>
@@ -19,23 +19,50 @@
 </ul>
 
 <h2>やりたいこと一覧</h2>
+<h3>これから達成するリスト</h3>
 <ul>
     <?php foreach ($wants as $want): ?>
+        <?php if ($want['achieved_want']) continue; ?>
         <li><?php echo $want['want']; ?></li>
-        <p>達成状況：<?php echo $want['achieved_want'] ? '達成' : '未達成'; ?></p>
-        <p>登録日：<?php echo $want['created_at']; ?></p>
-        <form action="update" method="post">
+        <p>登録日：<?php echo date('Y年m月d日', strtotime($want['created_at'])); ?></p>
+        <form action="/achieve" method="post">
+            <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
+            <input type="submit" value="達成した！">
+        </form>
+        <form action="/update" method="post">
             <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
             <input type="submit" value="編集する">
         </form>
+        <button popovertarget="myPopover">削除する</button>
         <div id="myPopover" popover>
             <p>完全にデータが消えます。本当に削除しますか？</p>
-            <form action="delete" method="post">
+            <form action="/delete" method="post">
                 <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
                 <input type="submit" value="本当に削除する">
             </form>
             <button popovertarget="myPopover">いいえ、削除しません</button>
         </div>
+    <?php endforeach; ?>
+</ul>
+
+<h3>達成済みリスト</h3>
+<ul>
+    <?php foreach ($wants as $want): ?>
+        <?php if (!$want['achieved_want']) continue; ?>
+        <li><?php echo $want['want']; ?></li>
+        <p>登録日：<?php echo date('Y年m月d日', strtotime($want['created_at'])); ?></p>
+        <form action="/notAchieve" method="post">
+            <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
+            <input type="submit" value="未達成に戻す">
+        </form>
         <button popovertarget="myPopover">削除する</button>
+        <div id="myPopover" popover>
+            <p>完全にデータが消えます。本当に削除しますか？</p>
+            <form action="/delete" method="post">
+                <input type="hidden" name="id" value="<?php echo $want['id']; ?>">
+                <input type="submit" value="本当に削除する">
+            </form>
+            <button popovertarget="myPopover">いいえ、削除しません</button>
+        </div>
     <?php endforeach; ?>
 </ul>

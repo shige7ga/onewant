@@ -44,6 +44,8 @@ class Application
             '/update' => ['controller' => 'want', 'action' => 'update'],
             '/update/action' => ['controller' => 'want', 'action' => 'updateAction'],
             '/delete' => ['controller' => 'want', 'action' => 'delete'],
+            '/achieve' => ['controller' => 'want', 'action' => 'achieve'],
+            '/notAchieve' => ['controller' => 'want', 'action' => 'notAchieve'],
         ];
     }
 

@@ -50,12 +50,12 @@ class WantModel extends Model
         return true;
     }
 
-    public function updateWant($id, $want)
+    public function updateWantData($id, $column, $data)
     {
         try {
-            $sql = 'UPDATE wants SET want = :want WHERE id = :id';
+            $sql = "UPDATE wants SET $column = :data WHERE id = :id";
             $params = [
-                [':want', $want, PDO::PARAM_STR],
+                [':data', $data, PDO::PARAM_STR],
                 [':id', $id, PDO::PARAM_INT],
             ];
             $this->executeQuery($sql, $params);
