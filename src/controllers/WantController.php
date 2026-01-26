@@ -61,7 +61,7 @@ class WantController extends Controller
         }
         $wantId = $_POST['id'];
         $wantText = $_POST['want'];
-        $this->models['want']->updateWant($wantId, $wantText);
+        $this->models['want']->updateWantData($wantId, 'want', $wantText);
 
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
@@ -81,6 +81,44 @@ class WantController extends Controller
         }
         $wantId = $_POST['id'];
         $this->models['want']->deleteWant($wantId);
+
+        $user_id = 1; // 仮のユーザーID
+        $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
+        return $this->render([
+                'pageTitle' => 'トップ',
+                'checkTodayWant' => $checkTodayWant,
+                'user_id' => $user_id,
+                'wants' => $wants
+            ], 'index');
+    }
+
+    public function achieve()
+    {
+        if (!$this->request->isPost()) {
+            throw new HttpNotFoundPageException();
+        }
+        $wantId = $_POST['id'];
+        $this->models['want']->updateWantData($wantId, 'achieved_want', 1);
+
+        $user_id = 1; // 仮のユーザーID
+        $wants = $this->models['want']->getWantsPerUser($user_id);
+        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
+        return $this->render([
+                'pageTitle' => 'トップ',
+                'checkTodayWant' => $checkTodayWant,
+                'user_id' => $user_id,
+                'wants' => $wants
+            ], 'index');
+    }
+
+    public function notAchieve()
+    {
+        if (!$this->request->isPost()) {
+            throw new HttpNotFoundPageException();
+        }
+        $wantId = $_POST['id'];
+        $this->models['want']->updateWantData($wantId, 'achieved_want', 0);
 
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
