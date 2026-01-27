@@ -19,7 +19,8 @@ class WantController extends Controller
             'pageTitle' => 'トップ',
             'checkTodayWant' => $checkTodayWant,
             'user_id' => $user_id,
-            'wants' => $wants
+            'wants' => $wants,
+            'errors' => [],
         ]);
     }
 
@@ -28,16 +29,24 @@ class WantController extends Controller
         if (!$this->request->isPost()) {
             throw new HttpNotFoundPageException();
         }
+        $errors = [];
+
         $user_id = 1; // 仮のユーザーID
         $wantText = $_POST['want'];
-        $this->models['want']->createWant($user_id, $wantText);
+        $errors = $this->validation->validateWant($wantText);
+
+        if (count($errors) === 0) {
+            $this->models['want']->createWant($user_id, $wantText);
+        }
+
         $wants = $this->models['want']->getWantsPerUser($user_id);
         $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
         return $this->render([
                 'pageTitle' => 'トップ',
                 'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
-                'wants' => $wants
+                'wants' => $wants,
+                'errors' => $errors,
             ], 'index');
     }
 
@@ -50,7 +59,8 @@ class WantController extends Controller
         $want = $this->models['want']->getWantById($wantId);
         return $this->render([
             'pageTitle' => '編集ページ',
-            'want' => $want
+            'want' => $want,
+            'errors' => [],
         ], 'update');
     }
 
@@ -61,17 +71,30 @@ class WantController extends Controller
         }
         $wantId = $_POST['id'];
         $wantText = $_POST['want'];
-        $this->models['want']->updateWantData($wantId, 'want', $wantText);
 
-        $user_id = 1; // 仮のユーザーID
-        $wants = $this->models['want']->getWantsPerUser($user_id);
-        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
-        return $this->render([
-                'pageTitle' => 'トップ',
-                'checkTodayWant' => $checkTodayWant,
-                'user_id' => $user_id,
-                'wants' => $wants
-            ], 'index');
+        $params = [];
+        $redirectPage = 'index';
+        $errors = [];
+        $errors = $this->validation->validateWant($wantText);
+
+        if (count($errors) === 0) {
+            $this->models['want']->updateWantData($wantId, 'want', $wantText);
+            $user_id = 1; // 仮のユーザーID
+            $wants = $this->models['want']->getWantsPerUser($user_id);
+            $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
+            $params['pageTitle'] = 'トップ';
+            $params['checkTodayWant'] = $checkTodayWant;
+            $params['user_id'] = $user_id;
+            $params['wants'] = $wants;
+            $params['errors'] = [];
+        } else {
+            $redirectPage = 'update';
+            $want = $this->models['want']->getWantById($wantId);
+            $params['pageTitle'] = '編集ページ';
+            $params['want'] = $want;
+            $params['errors'] = $errors;
+        }
+        return $this->render($params, $redirectPage);
     }
 
     public function delete()
@@ -89,17 +112,24 @@ class WantController extends Controller
                 'pageTitle' => 'トップ',
                 'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
-                'wants' => $wants
+                'wants' => $wants,
+                'errors' => [],
             ], 'index');
     }
 
-    public function achieve()
+    public function switchAchievedWant()
     {
         if (!$this->request->isPost()) {
             throw new HttpNotFoundPageException();
         }
         $wantId = $_POST['id'];
-        $this->models['want']->updateWantData($wantId, 'achieved_want', 1);
+        $achievedWant = $this->models['want']->getWantById($wantId)['achieved_want'];
+
+        if ($achievedWant === 0) {
+            $this->models['want']->updateWantData($wantId, 'achieved_want', 1);
+        } else {
+            $this->models['want']->updateWantData($wantId, 'achieved_want', 0);
+        }
 
         $user_id = 1; // 仮のユーザーID
         $wants = $this->models['want']->getWantsPerUser($user_id);
@@ -108,26 +138,8 @@ class WantController extends Controller
                 'pageTitle' => 'トップ',
                 'checkTodayWant' => $checkTodayWant,
                 'user_id' => $user_id,
-                'wants' => $wants
-            ], 'index');
-    }
-
-    public function notAchieve()
-    {
-        if (!$this->request->isPost()) {
-            throw new HttpNotFoundPageException();
-        }
-        $wantId = $_POST['id'];
-        $this->models['want']->updateWantData($wantId, 'achieved_want', 0);
-
-        $user_id = 1; // 仮のユーザーID
-        $wants = $this->models['want']->getWantsPerUser($user_id);
-        $checkTodayWant = $this->models['want']->checkTodayWant($user_id);
-        return $this->render([
-                'pageTitle' => 'トップ',
-                'checkTodayWant' => $checkTodayWant,
-                'user_id' => $user_id,
-                'wants' => $wants
+                'wants' => $wants,
+                'errors' => [],
             ], 'index');
     }
 }
