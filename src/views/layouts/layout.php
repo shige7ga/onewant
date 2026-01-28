@@ -8,6 +8,11 @@
 <body>
     <h1><a href="/">わんわんと</a></h1>
     <p>1日1個だけやりたいことを記録するアプリ</p>
+    <div>
+        <form action="/signup" method="post">
+            <button>ユーザ登録・ログイン</button>
+        </form>
+    </div>
     <?php echo $content; ?>
 </body>
 </html>
