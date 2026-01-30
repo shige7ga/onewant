@@ -14,20 +14,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 既存のテーブルがあれば削除
-    $pdo->exec("DROP TABLE IF EXISTS wants");
-
-    // テーブルの作成(1ユーザ毎のやりたいことのデータを扱う)
-    $createWantsSql = "CREATE TABLE wants (
-        id INTEGER AUTO_INCREMENT PRIMARY KEY,
-        user_id INTEGER NOT NULL,
-        want VARCHAR(2000) NOT NULL,
-        todo VARCHAR(2000),
-        memo VARCHAR(2000),
-        achieved_want BOOLEAN DEFAULT FALSE NOT NULL,
-        achieved_todo BOOLEAN DEFAULT FALSE NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
-    )";
+    $pdo->exec("DROP TABLE IF EXISTS users");
 
     $createUsersSql = "CREATE TABLE users (
         user_id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -40,10 +27,10 @@ try {
         achievedWantCnt INTEGER DEFAULT 0 NOT NULL,
         currentDuration INTEGER DEFAULT 0 NOT NULL,
         maxDuration INTEGER DEFAULT 0 NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
     )";
 
-    $pdo->exec($createWantsSql);
+    $pdo->exec($createUsersSql);
 
 } catch (PDOException $e) {
     die("データベース接続エラー: " . $e->getMessage());

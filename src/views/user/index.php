@@ -1,11 +1,9 @@
+<div>
+    <form action="/logout" method="post">
+        <button>ログアウト</button>
+    </form>
+</div>
 
-<?php if (!isset($_SESSION['user_id'])) : ?>
-    <div>
-        <form action="/signup" method="post">
-            <button>ユーザ登録・ログイン</button>
-        </form>
-    </div>
-<?php endif ?>
 <form action="/create" method="post">
     <fieldset <?php if (!$checkTodayWant) echo 'disabled'; ?>>
         <legend><h2>やりたいことを記録しよう</h2></legend>

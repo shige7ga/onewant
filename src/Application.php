@@ -45,6 +45,9 @@ class Application
             '/update/action' => ['controller' => 'want', 'action' => 'updateAction'],
             '/delete' => ['controller' => 'want', 'action' => 'delete'],
             '/switchAchievedWant' => ['controller' => 'want', 'action' => 'switchAchievedWant'],
+            '/signup' => ['controller' => 'user', 'action' => 'signup'],
+            '/signup/action' => ['controller' => 'user', 'action' => 'signupAction'],
+            '/logout' => ['controller' => 'user', 'action' => 'logout'],
         ];
     }
 
