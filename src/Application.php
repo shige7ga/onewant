@@ -47,6 +47,7 @@ class Application
             '/switchAchievedWant' => ['controller' => 'want', 'action' => 'switchAchievedWant'],
             '/signup' => ['controller' => 'user', 'action' => 'signup'],
             '/signup/action' => ['controller' => 'user', 'action' => 'signupAction'],
+            '/logout' => ['controller' => 'user', 'action' => 'logout'],
         ];
     }
 

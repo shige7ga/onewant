@@ -1,3 +1,8 @@
+<div>
+    <form action="/logout" method="post">
+        <button>ログアウト</button>
+    </form>
+</div>
 
 <form action="/create" method="post">
     <fieldset <?php if (!$checkTodayWant) echo 'disabled'; ?>>
